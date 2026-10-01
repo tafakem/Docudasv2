@@ -72,6 +72,21 @@ export default defineConfig(() => {
         '@': path.resolve(process.cwd(), '.')
       }
     },
+    build: {
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('lucide-react')) return 'icons';
+              if (id.includes('motion')) return 'motion';
+              if (id.includes('papaparse')) return 'papaparse';
+              if (id.includes('react')) return 'vendor';
+            }
+          }
+        }
+      }
+    },
     server: {
       hmr: false
     }
